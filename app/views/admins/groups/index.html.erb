@@ -1,0 +1,21 @@
+<h1>Groups#хуиндекс</h1>
+<p>Find me in app/views/groups/index.html.erb</p>
+
+<div class="row">
+<% @groups.each do |group| %>
+	<div class="card m-2" style="width: 18rem;">
+	  <div class="card-body">
+	    <h5 class="card-title"><%= group.title %></h5>
+	    <hr>
+	    <h5> <%= group.tasks.count %> tasks are in work </h5>
+	    <div>
+			<%= link_to "Open group", group, class: 'btn btn-primary' %>
+			<%= current_user.admin? %>
+			<% if current_user.admin? %>
+				<%= link_to "Edit group", edit_group_path(group), class: 'btn btn-warning' %>
+			<% end %>
+		</div>
+	  </div>
+	</div>
+<% end %>
+</div>

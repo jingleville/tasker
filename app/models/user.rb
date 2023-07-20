@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
+#  admin                  :boolean          default(FALSE)
 #  encrypted_password     :string           default(""), not null
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -13,12 +14,13 @@
 #
 # Indexes
 #
-#  index_users_on_email                 ("email") UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_username              (username) UNIQUE
 #
 class User < ApplicationRecord
+  has_many :members
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable
 end

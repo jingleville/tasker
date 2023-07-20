@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  			<li class="nav-item active">
+	    		<%= link_to "Home",  root_path, class: 'btn ml-auto mr-2'%>
+  			</li>
+  			<li class="nav-item active">
+	    		<%= link_to "Groups",  groups_path, class: 'btn ml-auto mr-2'%>
+  			</li>
+	    	<li class="nav-item active">
+  				<%= link_to "New group",   new_group_path, class: 'btn ml-auto mr-2'%>
+  			</li>
+      </ul>
+      <ul class="navbar-nav">
+				<% if current_user %>
+					<li class="nav-item active">
+						<%= link_to "Log out", destroy_user_session_path, class: 'nav-link'%> 
+					</li>
+					<li class="nav-item active">
+						<%= link_to "Profile", profile_index_path, class: 'nav-link'%>
+					</li>
+					<li>
+						<%= "Admin" if current_user.admin? %>
+					</li>
+				<% else %>
+					<li class="nav-item active">
+						<%= link_to "Log in", new_user_session_path, class: 'nav-link'%>
+					</li>
+					<li class="nav-item active">
+						<%= link_to "Sign up", new_user_registration_path, class: 'nav-link'%>
+					</li>
+				<% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

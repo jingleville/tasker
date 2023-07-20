@@ -1,0 +1,71 @@
+<h1>
+	Title is <%= @group.title %>
+</h1>
+<h3>
+  Author is <%= @group.author %>
+</h3>
+
+ <div>
+  <button type="button" class="btn btn-warning" id="toggle-btn"
+data-toggle="collapse" data-target="#toggle-example">
+    Add member
+  </button>
+
+  <div id="toggle-example" class="collapse in">
+    <%= form_with model: [ @group, @group.members.build ] do |form| %>
+      <p>
+        <%= form.label :role %><br>
+        <%= form.text_field :role %>
+      </p>
+      <p>
+        <%= form.label :User %><br>
+        <%= form.collection_select(:user_id, User.all, :id, :username) %>
+      </p>
+      <p>
+        <%= form.submit %>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<div id="members">
+  <% if @members %>
+  	<% @members.each do |member| %>
+  		<p><%= member.user.username %></p>
+  	<% end %>
+  <% else %>
+    <p> No members </p>
+  <% end %>
+</div>
+
+<% if @tasks %>
+	<% @tasks.each do |task| %>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title"><%= task.title %></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%= task.status %></h6>
+        <p class="card-text">
+          <%= task.body %>
+        </p>
+        <p class="card-text">
+          <%= task.author %>
+        </p>
+        <p class="card-text">
+          <%= task.deadline %>
+        </p>
+      </div>
+    </div>
+	<% end %>
+<% else %>
+	<p> No tasks </p>
+<% end %>
+
+
+
+
+
+
+
+
+<h3> Create a task </h3>
+<%= link_to "New task",  new_group_task_path(@group) %>

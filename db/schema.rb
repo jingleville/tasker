@@ -10,7 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_15_115253) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_20_190200) do
+  create_table "admins", force: :cascade do |t|
+    t.string "username", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_admins_on_username", unique: true
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "title"
+    t.string "author"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.text "role"
+    t.integer "user_id", null: false
+    t.integer "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_members_on_group_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "author"
+    t.text "title"
+    t.text "body"
+    t.datetime "deadline"
+    t.text "status"
+    t.integer "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_tasks_on_group_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -19,8 +60,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_115253) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "\"email\"", name: "index_users_on_email", unique: true
+    t.boolean "admin", default: false
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "members", "groups"
+  add_foreign_key "members", "users"
+  add_foreign_key "tasks", "groups"
 end

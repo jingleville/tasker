@@ -1,0 +1,95 @@
+<h1>
+	Title is <%= @group.title %>
+</h1>
+<h3>
+  Author is <%= @group.author %>
+</h3>
+
+
+<% if admin? %>
+
+<div class="row">
+  <button type="button" class="btn btn-warning m-1" id="toggle-btn-members"
+data-toggle="collapse" data-target="#toggle-members" style="width: 8rem;">
+    Add member
+  </button>
+
+  <button type="button" class="btn btn-warning m-1" id="toggle-btn-task"
+data-toggle="collapse" data-target="#toggle-members" style="width: 8rem;">
+    New task
+  </button>
+</div>
+
+<div id="toggle-members" class="collapse in">
+  <%= form_with model: [ @group, @group.members.build ] do |form| %>
+    <p>
+      <%= form.label :role %><br>
+      <%= form.text_field :role %>
+    </p>
+    <p>
+      <%= form.label :User %><br>
+      <%= form.collection_select(:user_id, User.all, :id, :username) %>
+    </p>
+    <p>
+      <%= form.submit %>
+    </p>
+  <% end %>
+</div>
+
+<div id="toggle-task" class="collapse in">
+  <%= form_with model: [@group, @group.tasks.build ] do |form| %>
+    <div>
+      <%= form.label :title %><br>
+      <%= form.text_field :title %>
+      <% @group.errors.full_messages_for(:title).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+
+    <div>
+      <%= form.label :body %><br>
+      <%= form.text_field :body %>
+      <% @group.errors.full_messages_for(:body).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+
+    <div>
+      <%= form.label :deadline %><br>
+      <%= form.datetime_select :deadline, ampm: false, minute_step: 10 %>
+      <% @group.errors.full_messages_for(:deadline).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+
+    <div hidden>
+      <%= form.label :status %><br>
+      <%= form.text_area :status, value: 'Active' %>
+    </div>
+    
+    <div>
+      <%= form.submit %>
+    </div>
+  <% end %>
+</div>
+
+<div id="members">
+  <% if @members %>
+  	<% @members.each do |member| %>
+  		<p><%= member.user.username %></p>
+  	<% end %>
+  <% else %>
+    <p> No members </p>
+  <% end %>
+</div>
+
+<h3> Create a task </h3>
+<%= link_to "New task",  new_group_task_path(@group) %>
+
+
+<% end %>
+
+<div class="row">
+<%= render @tasks || "No tasks" %>
+</div>
+
