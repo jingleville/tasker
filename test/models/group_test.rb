@@ -3,6 +3,7 @@
 # Table name: groups
 #
 #  id         :integer          not null, primary key
+#  archived   :boolean
 #  author     :string
 #  title      :string
 #  created_at :datetime         not null

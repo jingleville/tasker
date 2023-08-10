@@ -8,7 +8,6 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new
-    p params
     @group = Group.find(params[:group_id])
   end
 

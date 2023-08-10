@@ -1,0 +1,9 @@
+<%= turbo_frame_tag project, class: 'item' do %>
+	<div class="kanban-project" id="project-<%= project.id%>-<%=project.procedure.id%>">
+		<button class = "btn btn-secondary btn-sm btn-project-down" id= <%=project.id%>><</button>
+
+		<span><strong><%= project.title %></strong></span>
+
+		<button class = "btn btn-secondary btn-sm btn-project-up" id= <%=project.id%>>></button>	
+	</div>
+<% end %>

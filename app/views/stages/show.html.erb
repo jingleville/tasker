@@ -1,0 +1,23 @@
+<div>
+	<p>
+		<%= @stage.title %>
+	</p>
+	<p>
+		<%= @stage.body %>
+	</p>
+	<% if @responsible_people %>
+		<% @responsible_people.each do |person| %>
+			<%= person.user.username %>
+		<% end %>
+	<% end %>
+</div>
+
+<%= form_with model: [ @stage, @stage.responsible_people.build ] do |form| %>
+<p>
+  <%= form.label :User %><br>
+  <%= form.collection_select(:user_id, User.all, :id, :username) %>
+</p>
+<p>
+  <%= form.submit %>
+</p>
+<% end %>

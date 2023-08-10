@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: responsiple_people
+#
+#  id         :integer          not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  stage_id   :integer          not null
+#  user_id    :integer          not null
+#
+# Indexes
+#
+#  index_responsiple_people_on_stage_id  (stage_id)
+#  index_responsiple_people_on_user_id   (user_id)
+#
+# Foreign Keys
+#
+#  stage_id  (stage_id => stages.id)
+#  user_id   (user_id => users.id)
+#
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the "{}" from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one: {}
+# column: value
+#
+two: {}
+# column: value

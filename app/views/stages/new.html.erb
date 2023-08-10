@@ -1,0 +1,33 @@
+<h4>New stage</h4>
+<%= form_with model: [@group, @procedure, @procedure.stages.build ] do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+    <% @stage.errors.full_messages_for(:title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :body %><br>
+    <%= form.text_field :body %>
+    <% @stage.errors.full_messages_for(:body).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :color %><br>
+    <input type="color" id="stage_color" name="color"
+           value="#e66465">
+  </div>
+
+  <div>
+    <%= form.label :Responsible_Person %><br>
+    <%= form.collection_select(:user_id, User.all, :id, :username) %>
+  </div>
+  
+  <div>
+      <%= form.submit %>
+  </div>
+<% end %>

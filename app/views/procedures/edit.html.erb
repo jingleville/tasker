@@ -1,0 +1,21 @@
+<%= turbo_frame_tag @procedure do %>
+  <div class="group-card"> 
+    <h4 >
+    	<strong>
+      	<%= @procedure.title%>
+	    </strong>
+	  </h4> 
+  	<%= form_with model: [@procedure.group, @procedure] do |form| %>
+		  <div>
+		    <%= form.label :title %><br>
+        <div class="group-input">
+		    	<%= form.text_field :title, class: 'new-procedure-name'%>
+		 		</div>
+		  </div>
+
+		  <div class='new-procedure-btn'>
+		    <%= form.submit :Submit, class: 'btn btn-primary btn-sm' %>
+		  </div>
+		<% end %>
+	</div> 
+<% end %>

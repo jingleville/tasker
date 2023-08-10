@@ -1,0 +1,49 @@
+<% if group.archived %>
+  <div class = "group archived" style="display: none" data-groups-target="archieved"> 
+<% else %>
+  <div class = "group"> 
+<% end %>
+
+  <div class="group-header">
+    <div>
+      <h2> <strong> <%= group.title %> </strong> <%= '(archieved)' if group.archived %> </h2> 
+    </div>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <%= button_to "Add members", new_group_member_path(group.id) , class: 'btn btn-sm btn-primary'%> 
+      <%= button_to "Edit", edit_group_path(group.id), class: 'btn btn-sm btn-primary'%> 
+      <% if group.archived %>
+        <%= button_to "Unarchive", archive_group_path(group), class: 'btn btn-sm btn-danger'%>   
+      <% else %>
+        <%= button_to "Archive", archive_group_path(group),data: { turbo_method: "post" }, class: 'btn btn-sm btn-danger'%> 
+      <%end%>
+    </div>
+  </div> 
+  <div class="group-list"  data-controller="group" id="collapseExample<%= group.id %>"> 
+    <% group.procedures.each do |procedure| %> 
+      <%= turbo_frame_tag procedure do %>
+        <div class="group-card" 
+             id="<%= group.id%>-<%=procedure.id%>" 
+             data-action="click->group#getProcedure"> 
+          <h4 ><strong id="<%= group.id%>-<%=procedure.id%>">
+            <%= procedure.title%>
+          </strong></h4> 
+          <%=link_to 'Edit', edit_group_procedure_path(group.id,procedure.id) ,data: { turbo_method: "get" }, class: 'btn btn-sm btn-primary'%>      
+        </div> 
+      <% end %>
+    <%end%> 
+    <div class="group-card"> 
+      <h4><strong>New board</strong></h4> 
+      <div class="group-input">
+      	<%= form_with model: [group, group.procedures.build ] do |form| %>
+  			  <div>
+  			    <%= form.text_field :title, class: 'new-procedure-name' %>
+  			  </div>
+
+  			  <div class='new-procedure-btn'>
+  			    <%= form.submit :Submit, class: 'btn btn-primary btn-sm' %>
+  			  </div>
+  			<% end %>
+      </div> 
+    </div>            
+  </div>
+</div>

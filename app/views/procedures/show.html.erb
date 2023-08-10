@@ -1,0 +1,37 @@
+<h1><%= @procedure.title %></h1>
+<div class="kanban-board">
+    <%= render @procedure.stages.order(order: :asc) %>
+    
+  <div class="kanban-block">
+    <div class="kanban-title">
+      <strong> New stage</strong>
+    </div>
+      <%= form_with model: [@group, @procedure, @procedure.stages.build ] do |form| %>
+        <div>
+          <%= form.label :title %><br>
+          <%= form.text_field :title, style: "width: 80%;" %>
+        </div>
+
+        <div>
+          <%= form.label :body %><br>
+          <%= form.text_field :body, style: "width: 80%;" %>
+        </div>
+
+        <div>
+          <%= form.label :color %><br>
+          <input type="color" id="stage_color" name="color"
+                 value="#e66465">
+        </div>
+
+        <div>
+          <%= form.label :Responsible_Person %><br>
+          <%= form.collection_select(:user_id, User.all, :id, :username) %>
+        </div>
+        
+        <div>
+            <%= form.submit %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

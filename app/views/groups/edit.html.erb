@@ -1,0 +1,26 @@
+<h1>Edit group <%= @group.title %> </h1>
+
+<% if @group.errors.full_messages.any? %>
+  <ul>
+  <% @group.errors.full_messages.each do |error_message| %>
+    <li>
+    <%= error_message%> 
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
+
+<%= form_with model: @group do |form| %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+    <% @group.errors.full_messages_for(:title).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -6,9 +6,22 @@ Rails.application.routes.draw do
   resources :groups do
     resources :tasks
     resources :members
+    resources :procedures do
+      resources :stages
+      resources :projects
+    end
   end
+  get '/procedures' => 'procedures#index', as: 'all_procedures'
+  get '/projects' => 'projects#index', as: 'all_projects'
 
-  get 'profile/index'  
+  get '/stages/:id/responsible_people/new' => 'responsible_people#new', as: 'stage_responsible_people'
+  post '/stages/:id/responsible_people/new' => 'responsible_people#create'
+
+  post '/group/archive/:group_id', to: 'groups#archive', as: 'archive_group'
+
+  get '/next_stage/:project_id', to: 'projects#next_stage'
+  get '/prev_stage/:project_id', to: 'projects#prev_stage'
+  get 'profile/index'
   root 'groups#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

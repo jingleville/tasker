@@ -1,0 +1,12 @@
+
+<div class="kanban-block" style="background: <%= stage.color+'99'%>;" id="stage-<%= stage.id%>"  >
+	<div class="kanban-title">
+	  <h4><strong><%= stage.title %></strong></h4>
+	</div>
+	<%= turbo_frame_tag stage do %>
+		<div id="<%=stage.procedure.id%>" data-controller="sortable">
+    		<%= render stage.projects %>
+		</div>
+	<% end %>
+
+</div>

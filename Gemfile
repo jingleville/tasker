@@ -51,6 +51,7 @@ gem 'devise'
 # Annotate gem
 gem 'annotate'
 
+gem 'acts_as_list'
 
 
 # Use Sass to process CSS

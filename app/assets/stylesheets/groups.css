@@ -1,0 +1,59 @@
+.group { 
+  align-content: start; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: start;   
+  column-gap: 20px; 
+  padding: 1em; 
+} 
+ 
+.group-header{ 
+  align-content: start; 
+  display: flex; 
+  align-items: start; 
+  column-gap: 20px; 
+  padding: 1em; 
+} 
+ 
+.group-list{ 
+  align-content: start; 
+  flex-wrap: wrap; 
+  display: flex; 
+  flex: auto; 
+  align-items: start; 
+  padding: 1em; 
+} 
+ 
+.group-card{ 
+  align-content: start; 
+  background: hsl(0.3turn 60% 45% / .7); 
+  width: 200px; 
+  height: max-content;
+  min-height: 130px;
+  border-radius: 5px; 
+  font-size: small; 
+  padding: 10px; 
+  margin: 10px; 
+  box-shadow:
+       inset 0 -3em 3em rgba(0,0,0,0.1),
+             0 0  0 2px rgb(255,255,255),
+             0.3em 0.3em 1em rgba(0,0,0,0.3);
+}
+
+.group-card:hover{
+  background: hsl(0.3turn 60% 45% / .8); 
+  box-shadow:
+       inset 0 -3em 3em rgba(0,0,0,0.3),
+             0 0  0 3px rgb(255,255,255),
+             0.3em 0.3em 1em rgba(0,0,0,0.6);
+}
+
+.new-procedure-name {
+  border-radius: 5px;
+  width: 160px;
+  margin: 0 0 5px;
+}
+
+.new-procedure-btn > input{
+  width: 160px; 
+}

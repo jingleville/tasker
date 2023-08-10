@@ -9,18 +9,19 @@
 <% if admin? %>
 
 <div class="row">
-  <button type="button" class="btn btn-warning m-1" id="toggle-btn-members"
+<%#   <button type="button" class="btn btn-warning m-1" id="toggle-btn-members"
 data-toggle="collapse" data-target="#toggle-members" style="width: 8rem;">
     Add member
-  </button>
+  </button> %>
 
-  <button type="button" class="btn btn-warning m-1" id="toggle-btn-task"
+<%#   <button type="button" class="btn btn-warning m-1" id="toggle-btn-task"
 data-toggle="collapse" data-target="#toggle-members" style="width: 8rem;">
     New task
-  </button>
+  </button> %>
 </div>
 
-<div id="toggle-members" class="collapse in">
+<h3> Add member </h3>
+<div id="toggle-members">
   <%= form_with model: [ @group, @group.members.build ] do |form| %>
     <p>
       <%= form.label :role %><br>
@@ -73,23 +74,14 @@ data-toggle="collapse" data-target="#toggle-members" style="width: 8rem;">
   <% end %>
 </div>
 
-<div id="members">
-  <% if @members %>
-  	<% @members.each do |member| %>
-  		<p><%= member.user.username %></p>
-  	<% end %>
-  <% else %>
-    <p> No members </p>
-  <% end %>
-</div>
 
-<h3> Create a task </h3>
-<%= link_to "New task",  new_group_task_path(@group) %>
-
-
+  <%= link_to "New task",  
+      new_group_task_path(@group), 
+      class: 'btn btn-primary btn-sm' %>
+  <%= link_to "New procedure",  
+      new_group_procedure_path(@group), 
+      class: 'btn btn-primary btn-sm'%>
 <% end %>
-
 <div class="row">
 <%= render @tasks || "No tasks" %>
 </div>
-

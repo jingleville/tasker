@@ -1,0 +1,52 @@
+.kanban-board {
+  align-content: start;
+  display: flex;
+  align-items: start;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  font-family: sans-serif;
+  column-gap: 20px;
+  padding: 1em;
+}
+
+.kanban-block {
+  padding: 1em;
+  width: 200px;
+  border-radius: 5px; 
+  scroll-snap-align: center;
+  min-width: 200px;
+  font-size: small; 
+  background: hsl(0.3turn 60% 45% / .7);
+  box-shadow:
+       inset 0 -3em 3em rgba(0,0,0,0.1),
+             0 0  0 2px rgb(255,255,255),
+             0.3em 0.3em 1em rgba(0,0,0,0.3);
+}
+
+.kanban-title {
+  padding-bottom: 1em;
+  text-align: center;
+}
+
+.kanban-project {
+  padding: 5px;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-bottom: 3px;
+  background: rgba(255,255,255, 0.5);
+  width: 9rem;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 12px;
+}
+
+.kanban-footer {
+  margin: 0 auto;
+  justify-content: center;
+  padding-top: 1rem;
+  text-align: center;
+  position: absolute; 
+  bottom: 0; 
+  font-size: 10px;
+}
