@@ -1,10 +1,15 @@
 <h1><%= @procedure.title %></h1>
+<%= link_to "Add project", 
+    new_group_procedure_project_path(
+      @procedure.group.id, 
+      @procedure.id, 
+      @procedure.projects.build), class: 'btn btn-lg btn-primary' %>
 <div class="kanban-board">
     <%= render @procedure.stages.order(order: :asc) %>
     
   <div class="kanban-block">
     <div class="kanban-title">
-      <strong> New stage</strong>
+      <h4><strong> New stage</strong></h4>
     </div>
       <%= form_with model: [@group, @procedure, @procedure.stages.build ] do |form| %>
         <div>

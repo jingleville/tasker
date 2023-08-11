@@ -37,6 +37,21 @@ class ProjectsController < ApplicationController
 		
 	end
 
+	def update_stage
+		p current_user
+		@project = Project.find(params[:project_id])
+		new_stage_id = params[:new_stage]
+		old_stage_id = params[:old_stage]
+		if Stage.find(new_stage_id).procedure == @project.stage.procedure
+			p 'ok'
+		else
+			p 'error'
+		end
+		@project.stage_id = params[:new_stage]
+			@project.save
+		render json: @project
+	end
+
 	def next_stage
 		@project = Project.find(params[:project_id])
 		@procedure = @project.procedure
@@ -71,7 +86,7 @@ class ProjectsController < ApplicationController
   def project_params
   	procedure = Procedure.find(params[:procedure_id])
   	params[:project][:stage_id] = procedure.stages.order(order: :asc)[0].id
-    params.require(:project).permit(:title, :body, :stage_id)
+    params.require(:project).permit(:title, :body, :stage_id, :position)
   end
 end
 

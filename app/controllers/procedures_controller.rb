@@ -19,7 +19,12 @@ class ProceduresController < ApplicationController
 		@group = Group.find(params[:group_id])
     @procedure = @group.procedures.create(procedure_params)
     if @procedure.save
-      redirect_to root_path(anchor: "#{@group.id}-#{@procedure.id}")
+    	@stage = @procedure.stages.new
+    	@stage.title = "Finished"
+    	@stage.color = "#00008B"
+    	@stage.stage_ord = 10000
+    	@stage.save
+      redirect_to groups_path(anchor: "#{@group.id}-#{@procedure.id}")
     else
       render :new
     end
@@ -33,7 +38,7 @@ class ProceduresController < ApplicationController
 		@procedure = Procedure.find(params[:id])
 		@procedure.update(procedure_params)
 		if @procedure.save
-      redirect_to root_path
+      redirect_to groups_path
 		else
 			render :edit
 		end		
@@ -46,7 +51,8 @@ class ProceduresController < ApplicationController
 	end
 
 	def destroy
-
+    @procedure = Procedure.find(params[:id])
+    @procedure.destroy
 	end
 
   private

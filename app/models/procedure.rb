@@ -3,7 +3,6 @@
 # Table name: procedures
 #
 #  id         :integer          not null, primary key
-#  body       :text
 #  title      :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -19,6 +18,6 @@
 #
 class Procedure < ApplicationRecord
 	belongs_to :group
-	has_many :stages, -> { order(stage_ord: :asc) }, dependent: :delete_all
-	has_many :projects, dependent: :delete_all
+	has_many :stages, -> { order(stage_ord: :asc) }, dependent: :destroy
+	has_many :projects, dependent: :destroy
 end

@@ -7,7 +7,6 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     @members = @group.members.all
-    @tasks = @group.tasks.all
   end
 
   def new
@@ -20,16 +19,14 @@ class GroupsController < ApplicationController
     if @group.save
 
       if @group.members.find_by(user_id: current_user.id)
-        p "User is in the group"
       else
-        p 'creating a user'
         @member = @group.members.new
         @member.user_id = current_user.id
         @member.role = "admin"
         @member.save
       end
 
-      redirect_to root_path
+      redirect_to groups_path
     else
       render :new
     end
@@ -43,7 +40,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @group.update(group_params)
     if @group.save
-      redirect_to root_path
+      redirect_to groups_path
     else
       render :new
     end
@@ -53,7 +50,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:group_id])
     @group.archived ? @group.archived = false : @group.archived = true
     @group.save
-    redirect_to root_path
+    redirect_to groups_path
   end
 
   def destroy
@@ -61,7 +58,7 @@ class GroupsController < ApplicationController
 
     @group.archived = true
 
-    redirect_to root_path
+    redirect_to groups_path
   end
 
   private

@@ -1,4 +1,24 @@
-
-	<div class="procedure">
-		<h3><%= procedure.title %></h3>
-	</div>
+<%= turbo_frame_tag procedure do %>
+	<div class="group-card" 
+	     id="<%= procedure.group.id%>-<%=procedure.id%>" 
+	     data-action="click->group#getProcedure"> 
+	  <h4>
+	  	<strong id="<%= procedure.group.id%>-<%=procedure.id%>">
+	    	<%= procedure.title%>
+	  	</strong>
+	  </h4>
+	  <p>
+	  	<%= "#{procedure.stages.count} stages, #{procedure.projects.count} projects" %>
+	  </p> 
+	  <div>
+	    <%= link_to 'Edit', 
+	    		edit_group_procedure_path(procedure.group.id,procedure.id), 
+	    		data: { turbo_method: "get" }, 
+	    		class: 'btn btn-sm btn-primary'%>
+	    <%= link_to 'Destroy', 
+	    		group_procedure_path(procedure.group.id,procedure.id), 
+	    		data: { turbo_method: "delete" }, 
+	    		class: 'btn btn-sm btn-danger'%>
+	  </div>
+	</div> 
+<% end %>

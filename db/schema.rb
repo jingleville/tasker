@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_112443) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_10_201032) do
   create_table "admins", force: :cascade do |t|
     t.string "username", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -43,7 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_112443) do
 
   create_table "procedures", force: :cascade do |t|
     t.text "title"
-    t.text "body"
     t.integer "group_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -61,11 +60,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_112443) do
 
   create_table "projects", force: :cascade do |t|
     t.text "title"
-    t.text "body"
     t.integer "procedure_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "stage_id"
+    t.integer "position", default: 1, null: false
     t.index ["procedure_id"], name: "index_projects_on_procedure_id"
   end
 
@@ -80,7 +79,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_112443) do
 
   create_table "stages", force: :cascade do |t|
     t.text "title"
-    t.text "body"
     t.integer "procedure_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

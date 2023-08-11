@@ -1,87 +1,56 @@
-<h1>
-	Title is <%= @group.title %>
-</h1>
-<h3>
-  Author is <%= @group.author %>
-</h3>
-
-
-<% if admin? %>
-
-<div class="row">
-<%#   <button type="button" class="btn btn-warning m-1" id="toggle-btn-members"
-data-toggle="collapse" data-target="#toggle-members" style="width: 8rem;">
-    Add member
-  </button> %>
-
-<%#   <button type="button" class="btn btn-warning m-1" id="toggle-btn-task"
-data-toggle="collapse" data-target="#toggle-members" style="width: 8rem;">
-    New task
-  </button> %>
-</div>
-
-<h3> Add member </h3>
-<div id="toggle-members">
-  <%= form_with model: [ @group, @group.members.build ] do |form| %>
-    <p>
-      <%= form.label :role %><br>
-      <%= form.text_field :role %>
-    </p>
-    <p>
-      <%= form.label :User %><br>
-      <%= form.collection_select(:user_id, User.all, :id, :username) %>
-    </p>
-    <p>
-      <%= form.submit %>
-    </p>
-  <% end %>
-</div>
-
-<div id="toggle-task" class="collapse in">
-  <%= form_with model: [@group, @group.tasks.build ] do |form| %>
+<div data-controller="groups">
+    <div class="group-header">
     <div>
-      <%= form.label :title %><br>
-      <%= form.text_field :title %>
-      <% @group.errors.full_messages_for(:title).each do |message| %>
-        <div><%= message %></div>
+      <h2> <strong> <%= @group.title %> </strong> <%= '(archieved)' if @group.archived %> </h2> 
+    </div>
+    <div class="btn-group" role="group">
+      <%= link_to "Add members", 
+          new_group_member_path(@group.id) , 
+          class: 'btn btn-sm btn-primary mx-1',
+          type: 'button'%> 
+      <%= link_to "Edit", 
+          edit_group_path(@group.id), 
+          class: 'btn btn-sm btn-primary mx-1'%> 
+      <% if @group.archived %>
+        <%= button_to "Unarchive", 
+            archive_group_path(@group), 
+            class: 'btn btn-sm btn-danger mx-1'%>   
+      <% else %>
+        <%= button_to "Archive", 
+            archive_group_path(@group),
+            data: { turbo_method: "post" }, 
+            class: 'btn btn-sm btn-danger mx-1'%> 
+      <%end%>
+    </div>
+  </div> 
+
+  <div class="group-list"  data-controller="group" id="collapseExample<%= @group.id %>"> 
+    <% @group.procedures.each do |procedure| %> 
+      <%= turbo_frame_tag procedure do %>
+        <div class="group-card" 
+             id="<%= @group.id%>-<%=procedure.id%>" 
+             data-action="click->group#getProcedure"> 
+          <h4 ><strong id="<%= @group.id%>-<%=procedure.id%>">
+            <%= procedure.title%>
+          </strong></h4> 
+          <%=link_to 'Edit', edit_group_procedure_path(@group.id,procedure.id) ,data: { turbo_method: "get" }, class: 'btn btn-sm btn-primary'%>      
+        </div> 
       <% end %>
-    </div>
+    <%end%> 
+    <div class="group-card"> 
+      <h4><strong>New board</strong></h4> 
+      <div class="group-input">
+        <%= form_with model: [@group, @group.procedures.build ] do |form| %>
+          <div>
+            <%= form.text_field :title, class: 'new-procedure-name' %>
+          </div>
 
-    <div>
-      <%= form.label :body %><br>
-      <%= form.text_field :body %>
-      <% @group.errors.full_messages_for(:body).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-    </div>
-
-    <div>
-      <%= form.label :deadline %><br>
-      <%= form.datetime_select :deadline, ampm: false, minute_step: 10 %>
-      <% @group.errors.full_messages_for(:deadline).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-    </div>
-
-    <div hidden>
-      <%= form.label :status %><br>
-      <%= form.text_area :status, value: 'Active' %>
-    </div>
-    
-    <div>
-      <%= form.submit %>
-    </div>
-  <% end %>
+          <div class='new-procedure-btn'>
+            <%= form.submit :Submit, class: 'btn btn-primary btn-sm' %>
+          </div>
+        <% end %>
+      </div> 
+    </div>            
+  </div>
 </div>
 
-
-  <%= link_to "New task",  
-      new_group_task_path(@group), 
-      class: 'btn btn-primary btn-sm' %>
-  <%= link_to "New procedure",  
-      new_group_procedure_path(@group), 
-      class: 'btn btn-primary btn-sm'%>
-<% end %>
-<div class="row">
-<%= render @tasks || "No tasks" %>
-</div>

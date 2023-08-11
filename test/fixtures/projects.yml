@@ -3,7 +3,7 @@
 # Table name: projects
 #
 #  id           :integer          not null, primary key
-#  body         :text
+#  position     :integer          default(1), not null
 #  title        :text
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

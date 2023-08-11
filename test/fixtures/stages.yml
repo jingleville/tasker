@@ -3,7 +3,6 @@
 # Table name: stages
 #
 #  id           :integer          not null, primary key
-#  body         :text
 #  color        :string
 #  stage_ord    :integer
 #  title        :text

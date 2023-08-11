@@ -1,10 +1,5 @@
 <%= turbo_frame_tag @procedure do %>
   <div class="group-card"> 
-    <h4 >
-    	<strong>
-      	<%= @procedure.title%>
-	    </strong>
-	  </h4> 
   	<%= form_with model: [@procedure.group, @procedure] do |form| %>
 		  <div>
 		    <%= form.label :title %><br>

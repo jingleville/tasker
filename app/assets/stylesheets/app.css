@@ -1,9 +1,21 @@
+body {
+  background: #F7F7F2 !important; 
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 30px;
+}
 
 
 .navbar {
-  background: hsl(0.3turn 45% 45% / .7);
+  background: #E4E6C3;
   display: flex;
   flex-direction: column;
   justify-content: start;
   justify-items: start;
+}
+
+.row {
+  --bs-gutter-x: 0rem;
 }

@@ -21,8 +21,9 @@ Rails.application.routes.draw do
 
   get '/next_stage/:project_id', to: 'projects#next_stage'
   get '/prev_stage/:project_id', to: 'projects#prev_stage'
+  patch '/update_stage/:project_id', to: 'projects#update_stage'
   get 'profile/index'
-  root 'groups#index'
+  root 'pages#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

@@ -24,9 +24,3 @@ export default class extends Controller {
     });
     };
 }
-
-
-// const fruits = ["apple", "orange", "cherry", "cherry"];
-// fruits.forEach(function myFunction(item, index) {
-//   text += index + ": " + item + "<br>"; 
-// });

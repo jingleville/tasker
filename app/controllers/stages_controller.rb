@@ -31,11 +31,9 @@ class StagesController < ApplicationController
 	end
 
 	def edit
-		
 	end
 
 	def update
-		
 	end
 
 	def show
@@ -52,8 +50,8 @@ class StagesController < ApplicationController
   private
   def stage_params
   	@procedure = Procedure.find(params[:procedure_id])
-  	@procedure.stages.maximum(:stage_ord) ? @procedure.stages.maximum(:stage_ord) + 1 : 1
-  	params[:stage][:stage_ord] = (@procedure.stages.maximum(:stage_ord) ? @procedure.stages.maximum(:stage_ord) + 1 : 1)
+  	@stages = @procedure.stages.where("title != 'Finished'")
+  	params[:stage][:stage_ord] = (@stages.maximum(:stage_ord) ? @stages.maximum(:stage_ord) + 1 : 1)
   	params[:stage][:color] = params[:color]
     params.require(:stage).permit(:title, :body, :color, :stage_ord)
   end
