@@ -1,22 +1,17 @@
 class ProceduresController < ApplicationController
   before_action :authenticate_user!
+	before_action :set_group, only: %i[ index new create show ]
+	before_action :set_procedure, only: %i[ show edit update destroy ]
 	
 	def index
-		if params[:group_id]
-			@group = Group.find(params[:group_id])
-			@procedures = @group.procedures
-		else
-			@procedures = Procedure.all
-		end
+		@procedures = @group.procedures
 	end
 
 	def new
 		@procedure = Procedure.new
-    @group = Group.find(params[:group_id])
 	end
 
 	def create
-		@group = Group.find(params[:group_id])
     @procedure = @group.procedures.create(procedure_params)
     if @procedure.save
     	@stage = @procedure.stages.new
@@ -31,11 +26,9 @@ class ProceduresController < ApplicationController
 	end
 
 	def edit
-		@procedure = Procedure.find(params[:id])
 	end
 
 	def update
-		@procedure = Procedure.find(params[:id])
 		@procedure.update(procedure_params)
 		if @procedure.save
       redirect_to groups_path
@@ -45,19 +38,30 @@ class ProceduresController < ApplicationController
 	end
 
 	def show
-		@group = Group.find(params[:group_id])
-    @procedure = Procedure.find(params[:id])
     @stages = @procedure.stages
 	end
 
 	def destroy
-    @procedure = Procedure.find(params[:id])
     @procedure.destroy
+    redirect_to groups_path
 	end
 
   private
+  def set_group
+  	@group = Group.find(params[:group_id])
+  end
+
+  def set_procedure
+		@procedure = Procedure.find(params[:id])
+  end
+
+
   def procedure_params
     params.require(:procedure).permit(:title, :body)
   end
 
+  def available_groups
+    current_user_groups = Member.where("user_id=#{current_user.id}").pluck(:group_id)
+    Group.find(current_user_groups)
+  end
 end

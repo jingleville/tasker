@@ -1,11 +1,12 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_group, only: %i[ show edit update destroy ]  
+
   def index
     @groups = all_groups
   end
 
   def show
-    @group = Group.find(params[:id])
     @members = @group.members.all
   end
 
@@ -17,15 +18,10 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     if @group.save
-
-      if @group.members.find_by(user_id: current_user.id)
-      else
-        @member = @group.members.new
-        @member.user_id = current_user.id
-        @member.role = "admin"
-        @member.save
-      end
-
+      @member = @group.members.new
+      @member.user_id = current_user.id
+      @member.role = "Admin"
+      @member.save
       redirect_to groups_path
     else
       render :new
@@ -33,11 +29,9 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    @group = Group.find(params[:id])
   end
 
   def update
-    @group = Group.find(params[:id])
     @group.update(group_params)
     if @group.save
       redirect_to groups_path
@@ -54,16 +48,18 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group = Group.find(params[:id])
-
     @group.archived = true
 
     redirect_to groups_path
   end
 
   private
+
+  def set_group
+    @group = Group.find(params[:id])
+  end
+
   def group_params
-    p params
     params[:group][:author] = current_user.username
     params.require(:group).permit(:author, :title)
   end

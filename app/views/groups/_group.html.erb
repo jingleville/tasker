@@ -1,52 +1,70 @@
-<% if group.archived %>
-  <div class = "group archived" style="display: none" data-groups-target="archieved"> 
-<% else %>
-  <div class = "group"> 
+<%= turbo_frame_tag group do %>
+  <% if group.archived %>
+    <div class = "group archived" style="display: none" data-groups-target="archieved">
+  <% else %>
+    <div class = "group"> 
+  <% end %>
+
+    <div class="group-header">
+      <div>
+        <h2> <strong> <%= group.title %> </strong> <%= '(archieved)' if group.archived %> </h2> 
+      </div>
+      <div class="group-btn-group" role="group">
+
+        <button type="button" class="btn btn-sm btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#group<%= group.id %>membersModal">
+          Members
+        </button>
+
+        <%= link_to "Edit", 
+            edit_group_path(group.id), 
+            data: { turbo_method: "get" }, 
+            class: 'btn btn-sm btn-primary mx-1'%> 
+
+        <% if group.archived %>
+          <%= button_to "Unarchive", 
+              archive_group_path(group), 
+              class: 'btn btn-sm btn-danger mx-1'%>   
+        <% else %>
+          <%= button_to "Archive", 
+              archive_group_path(group),
+              data: { turbo_method: "post" }, 
+              class: 'btn btn-sm btn-danger mx-1'%> 
+        <%end%>
+      </div>
+    </div> 
+    <div class="group-list" data-controller="groups" id="collapseExample<%= group.id %>"> 
+      <% group.procedures.each_with_index do |procedure, index| %> 
+        <%= render procedure, index: index %>
+      <%end%> 
+      <div class="group-card" data-group-target="procedure" id = "<%= group.procedures.count %>"> 
+        <h4><strong>New board</strong></h4> 
+        <div class="group-input">
+        	<%= form_with model: [group, group.procedures.build ] do |form| %>
+    			  <div>
+    			    <%= form.text_field :title, class: 'new-procedure-name' %>
+    			  </div>
+
+    			  <div class='new-procedure-btn'>
+    			    <%= form.submit :Submit, class: 'btn btn-primary btn-sm' %>
+    			  </div>
+    			<% end %>
+        </div> 
+      </div>            
+    </div>
+  </div>
 <% end %>
 
-  <div class="group-header">
-    <div>
-      <h2> <strong> <%= group.title %> </strong> <%= '(archieved)' if group.archived %> </h2> 
-    </div>
-    <div class="group-btn-group" role="group">
-      <%= link_to "Add members", 
-          new_group_member_path(group.id) , 
-          class: 'btn btn-sm btn-primary mx-1',
-          type: 'button'%>
-      <%= link_to "Edit", 
-          edit_group_path(group.id), 
-          data: { turbo_method: "get" }, 
-          class: 'btn btn-sm btn-primary mx-1'%> 
-      <% if group.archived %>
-        <%= button_to "Unarchive", 
-            archive_group_path(group), 
-            class: 'btn btn-sm btn-danger mx-1'%>   
-      <% else %>
-        <%= button_to "Archive", 
-            archive_group_path(group),
-            data: { turbo_method: "post" }, 
-            class: 'btn btn-sm btn-danger mx-1'%> 
-      <%end%>
-    </div>
-  </div> 
-  <div class="group-list"  data-controller="group" id="collapseExample<%= group.id %>"> 
-    <% group.procedures.each do |procedure| %> 
-      <%= render procedure %>
-    <%end%> 
-    <div class="group-card"> 
-      <h4><strong>New board</strong></h4> 
-      <div class="group-input">
-      	<%= form_with model: [group, group.procedures.build ] do |form| %>
-  			  <div>
-  			    <%= form.text_field :title, class: 'new-procedure-name' %>
-  			  </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.exampleModal').modal('show');
+});
 
-  			  <div class='new-procedure-btn'>
-  			    <%= form.submit :Submit, class: 'btn btn-primary btn-sm' %>
-  			  </div>
-  			<% end %>
-      </div> 
-    </div>            
-  </div>
+$(document).ready(function(){
+    $('.membersModal').modal('show');
+});
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="group<%= group.id %>membersModal" tabindex="-1" role="dialog" aria-labelledby="membersModalLabel" aria-hidden="true">
+  <%= render "modals/group_members", group: group %>
 </div>
-

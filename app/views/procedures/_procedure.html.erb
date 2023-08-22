@@ -1,9 +1,10 @@
-<%= turbo_frame_tag procedure do %>
+
 	<div class="group-card" 
-	     id="<%= procedure.group.id%>-<%=procedure.id%>" 
-	     data-action="click->group#getProcedure"> 
-	  <h4>
-	  	<strong id="<%= procedure.group.id%>-<%=procedure.id%>">
+	     id=<%= procedure.group.id%>-<%=procedure.id%> 
+	     data-action="click->groups#getProcedure"
+	     data-groups-target="procedure"> 
+	  <h4 class="group-title">
+	  	<strong id=<%= procedure.group.id%>-<%=procedure.id%>>
 	    	<%= procedure.title%>
 	  	</strong>
 	  </h4>
@@ -17,8 +18,15 @@
 	    		class: 'btn btn-sm btn-primary'%>
 	    <%= link_to 'Destroy', 
 	    		group_procedure_path(procedure.group.id,procedure.id), 
-	    		data: { turbo_method: "delete" }, 
-	    		class: 'btn btn-sm btn-danger'%>
+	    		data: { turbo_method: "delete",
+	    				action: "click->groups#destroyProcedure" }, 
+	    		class: 'btn btn-sm btn-danger',
+    			id: index %>
+
+	    <div class="btn btn-sm btn-danger"
+	    	 id = "<%= index %>"
+	    	 data-action="click->groups#destroyProcedure">
+	    	Destroy (2)
+	    </div>
 	  </div>
 	</div> 
-<% end %>

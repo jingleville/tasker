@@ -1,17 +1,16 @@
-<h1> h</h1>
-<%= form_with model: @group.members.build do |form| %>
+<%= form_with model: [group, group.members.build] do |form| %>
+
+
   <div>
     <%= form.label :username %><br>
 
     <%= select_tag "Users", 
         options_from_collection_for_select(User.all, "id", "username"), 
         multiple: false %>
-    <% @group.errors.full_messages_for(:title).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
   </div>
 
-  <div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
     <%= form.submit :Submit, class: 'btn btn-primary' %>
   </div>
 <% end %>

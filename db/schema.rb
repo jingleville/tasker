@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_10_201032) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_13_200233) do
   create_table "admins", force: :cascade do |t|
     t.string "username", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -49,23 +49,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_201032) do
     t.index ["group_id"], name: "index_procedures_on_group_id"
   end
 
-  create_table "project_stages", force: :cascade do |t|
-    t.integer "project_id", null: false
+  create_table "projects", force: :cascade do |t|
+    t.text "title"
+    t.integer "position"
+    t.integer "procedure_id", null: false
     t.integer "stage_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_project_stages_on_project_id"
-    t.index ["stage_id"], name: "index_project_stages_on_stage_id"
-  end
-
-  create_table "projects", force: :cascade do |t|
-    t.text "title"
-    t.integer "procedure_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "stage_id"
-    t.integer "position", default: 1, null: false
     t.index ["procedure_id"], name: "index_projects_on_procedure_id"
+    t.index ["stage_id"], name: "index_projects_on_stage_id"
   end
 
   create_table "responsible_people", force: :cascade do |t|
@@ -87,18 +79,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_201032) do
     t.index ["procedure_id"], name: "index_stages_on_procedure_id"
   end
 
-  create_table "tasks", force: :cascade do |t|
-    t.string "author"
-    t.text "title"
-    t.text "body"
-    t.datetime "deadline"
-    t.text "status"
-    t.integer "group_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_tasks_on_group_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "username", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -115,11 +95,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_10_201032) do
   add_foreign_key "members", "groups"
   add_foreign_key "members", "users"
   add_foreign_key "procedures", "groups"
-  add_foreign_key "project_stages", "projects"
-  add_foreign_key "project_stages", "stages"
   add_foreign_key "projects", "procedures"
+  add_foreign_key "projects", "stages"
   add_foreign_key "responsible_people", "stages"
   add_foreign_key "responsible_people", "users"
   add_foreign_key "stages", "procedures"
-  add_foreign_key "tasks", "groups"
 end

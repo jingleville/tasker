@@ -1,17 +1,7 @@
-<% @procedures.each do |procedure| %>
-    <div class="kanban-heading">
-    	<h1>
-    	<%= procedure.title %>
-		</h1>
-		<h3>
-	        <%= link_to "Open procedure",  
-			group_procedure_path(procedure.group.id, procedure), 
-			class: 'btn btn-primary' %>
-		</h3>
-    </div>
-
-    <div class="kanban-board">
-	  	<%= render procedure.stages.order(order: :asc) %>
-    </div>
-    <hr>
+<% if @group %>
+	<%= render 'shared/group_procedures', group: @group %>
+<% else %>
+	<% @groups.each do |group| %>
+		<%= render 'shared/group_procedures', group: group %>
+	<% end %>
 <% end %>

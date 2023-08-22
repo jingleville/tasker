@@ -25,7 +25,7 @@ class Member < ApplicationRecord
 
   validates :role,     presence: true
 
-  validates :role, inclusion: { in: %w(admin user),
+  validates :role, inclusion: { in: %w(Admin user),
     message: "%{value} is not a valid role" }
 
   validates :group_id, presence: true

@@ -1,5 +1,16 @@
 <h4>New Project</h4>
-<%= form_with model: [@group, @procedure, @procedure.projects.build ] do |form| %>
+<%= form_with model: [@group, @procedure, @project] do |form| %>
+  <% if @project.errors.full_messages.any? %>
+    <ul>
+    <% @project.errors.full_messages.each do |error_message| %>
+      <li>
+      <%= error_message%> 
+      </li>
+    <% end %>
+    </ul>
+  <% end %>
+
+
   <div>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -8,14 +19,6 @@
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :body %><br>
-    <%= form.text_field :body %>
-    <% @project.errors.full_messages_for(:body).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-  </div>
-  
   <div>
       <%= form.submit %>
   </div>

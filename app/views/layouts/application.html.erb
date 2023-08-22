@@ -36,6 +36,7 @@
         <div class="col-sm-11">
           <%= yield %>
         </div>
+        <%= turbo_frame_tag "remote_modal", target: "_top" %>
       </div>
 
       <script>

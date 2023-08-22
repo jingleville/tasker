@@ -5,3 +5,4 @@
 //# sourceMappingURL=/assets/application.js.map
 import "@hotwired/turbo-rails"
 import "./controllers"
+

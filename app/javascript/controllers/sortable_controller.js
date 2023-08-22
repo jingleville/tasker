@@ -12,7 +12,7 @@ export default class extends Controller {
           console.log(e)
           const resp = await patch("/update_stage/"+e.item.id.split("project_")[1], {
             body: JSON.stringify({
-              'old_stage': e.from.parentElement.id.split("stage_")[1]
+              'old_stage': e.from.parentElement.id.split("stage_")[1],
               'new_stage': e.to.parentElement.id.split("stage_")[1]
             })
           })

@@ -1,0 +1,22 @@
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">
+          Create a project
+        </h4>
+      </div>
+      <div class="modal-body">
+        <%= form_with model: [@procedure.group, @procedure, @procedure.projects.new] do |form| %>
+          <div>
+            <%= form.label :title %><br>
+            <%= form.text_field :title %>
+          </div>
+
+          <div>
+              <%= form.submit %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+

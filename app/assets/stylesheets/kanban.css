@@ -9,18 +9,30 @@
   padding: 1em;
 }
 
-.kanban-block {
-  padding: 1em;
+.stage-card {
+  align-content: end;
+  padding: 10px; 
+  margin: 10px; 
   width: 200px;
+  height: max-content;
   border-radius: 5px; 
   scroll-snap-align: center;
   min-width: 200px;
   font-size: small; 
   background: hsl(0.3turn 60% 45% / .7);
+  transition: all 0.5s;
   box-shadow:
        inset 0 -3em 3em rgba(0,0,0,0.1),
              0 0  0 2px rgb(255,255,255),
              0.3em 0.3em 1em rgba(0,0,0,0.3);
+}
+
+.stage-card:hover{
+
+  box-shadow:
+       inset 0 -3em 3em rgba(0,0,0,0.3),
+             0 0  0 3px rgb(255,255,255),
+             0.3em 0.3em 1em rgba(0,0,0,0.6);
 }
 
 .kanban-title {
@@ -28,17 +40,25 @@
   text-align: center;
 }
 
-.kanban-project {
-  padding: 5px;
+.stage-project {
+  padding: 3px 10px 3px 10px;
   border-radius: 10px;
-  margin: 0 auto;
-  margin-bottom: 3px;
+  margin: 10px auto;
   background: rgba(255,255,255, 0.5);
   width: 9rem;
   display: flex;
   justify-content: space-between;
   text-align: center;
   font-size: 12px;
+  transition: all 0.5s;
+}
+
+.stage-project:hover {
+  box-shadow:
+       inset 0 -3em 3em rgba(255,255,255,0.3),
+             0 0  0 2px rgb(200,200,200),
+             0.1em 0.1em 1em rgba(0,0,0,0.6);
+
 }
 
 .kanban-footer {

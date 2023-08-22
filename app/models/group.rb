@@ -10,9 +10,8 @@
 #  updated_at :datetime         not null
 #
 class Group < ApplicationRecord
-	has_many :members, dependent: :delete_all 
-	has_many :tasks, dependent: :delete_all
-	has_many :procedures, dependent: :delete_all
+	has_many :members, dependent: :destroy 
+	has_many :procedures, dependent: :destroy
 
 	validates :author, presence: true
 	validates :title,  presence: true

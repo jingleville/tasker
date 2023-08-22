@@ -1,26 +1,17 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
+	before_action :set_procedure, only: %i[ index new create edit update show destroy ]
+	before_action :set_project, only: %i[ show edit update destroy ]
 	
 	def index
-		p params
-		if params[:procedure_id]
-			@procedures = Procedure.find(params[:procedure_id])
-			@projects = @procedure.projects
-		else
-			p 'no procedure'
-			@projects = Project.all
-		end
+		@projects = @procedure.projects
 	end
 
 	def new
-		@group = Group.find(params[:group_id])
-		@procedure = Procedure.find(params[:procedure_id])
 		@project = @procedure.projects.new
 	end
 
 	def create
-		@group = Group.find(params[:group_id])
-		@procedure = Procedure.find(params[:procedure_id])
     @project = @procedure.projects.create(project_params)
     if @project.save
       redirect_to group_procedure_path(@procedure.group.id, @procedure)
@@ -38,43 +29,15 @@ class ProjectsController < ApplicationController
 	end
 
 	def update_stage
-		p current_user
 		@project = Project.find(params[:project_id])
 		new_stage_id = params[:new_stage]
 		old_stage_id = params[:old_stage]
-		if Stage.find(new_stage_id).procedure == @project.stage.procedure
-			p 'ok'
-		else
-			p 'error'
-		end
 		@project.stage_id = params[:new_stage]
 			@project.save
 		render json: @project
 	end
 
-	def next_stage
-		@project = Project.find(params[:project_id])
-		@procedure = @project.procedure
-
-		@stage = @procedure.stages.where("stage_ord > ?", @project.stage.stage_ord).first
-		@project.stage_id = @stage.id
-		@project.save
-		render json: @project
-	end
-
-	def prev_stage
-		@project = Project.find(params[:project_id])
-		@procedure = @project.procedure
-
-		@stage = @procedure.stages.where("stage_ord < ?", @project.stage.stage_ord).last
-		@project.stage_id = @stage.id
-		@project.save
-		render json: @project
-	end
-
 	def show
-		@group = Group.find(params[:group_id])
-  	@procedure = Procedure.find(params[:id])
   	@stages = @procedure.stages
 	end
 
@@ -83,10 +46,20 @@ class ProjectsController < ApplicationController
 	end
 
   private
+
+  def set_procedure
+		@procedure = Procedure.find(params[:procedure_id])
+  end
+
+  def set_project
+  	@project = Project.find(params[:id])
+  end
+
   def project_params
   	procedure = Procedure.find(params[:procedure_id])
   	params[:project][:stage_id] = procedure.stages.order(order: :asc)[0].id
-    params.require(:project).permit(:title, :body, :stage_id, :position)
+  	params[:project][:position] = (procedure.projects.maximum(:position) ? procedure.projects.maximum(:position) + 1 : 1)
+    params.require(:project).permit(:title, :stage_id, :position)
   end
 end
 

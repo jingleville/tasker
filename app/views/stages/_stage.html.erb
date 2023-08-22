@@ -1,12 +1,34 @@
+<div  class="stage-card" 
+	  	style="background: <%= stage.color+'99' %>;" 
+	  	id="stage-<%= stage.id%>" >
 
-<div class="kanban-block" style="background: <%= stage.color+'99'%>;" id="stage-<%= stage.id%>"  >
-	<div class="kanban-title">
-	  <h4><strong><%= stage.title %></strong></h4>
-	</div>
+  <h4>
+  	<strong>
+  		<%= stage.title %>
+		</strong>
+	</h4>
 	<%= turbo_frame_tag stage do %>
 		<div id="<%=stage.procedure.id%>" data-controller="sortable">
     		<%= render stage.projects %>
 		</div>
 	<% end %>
-
+  <div>
+    <%= link_to 'Edit', 
+    		edit_group_procedure_stage_path(
+    			stage.procedure.group.id,
+    			stage.procedure.id,
+    			stage), 
+    		data: { turbo_method: "get" }, 
+    		class: 'btn btn-sm btn-primary'%>
+    <%= link_to "Destroy",
+    		group_procedure_stage_path(
+    			stage.procedure.group.id,
+    		 	stage.procedure.id,
+    		 	stage.id), 
+    		data:{
+          turbo_method: "delete",
+          turbo_confirm: "Are you sure?"}, 
+    		class: 'btn btn-sm btn-danger' %>
+  </div>
 </div>
+

@@ -1,0 +1,49 @@
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Group <strong><%= group.title %></strong> members
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <% if group.members %>
+            <% group.members.each do |member| %>
+              <div class="col-4">
+                <p>
+                  <%= member.user.username %>
+                </p>
+              </div>
+              <div class="col-4">
+                <p>
+                  <%= member.role %>
+                </p>
+              </div>              
+
+                <div class="col-4">
+              <% if group.members.find_by(user_id: current_user.id).role == 'Admin' %>
+                  <%= link_to "Delete from group", 
+                      group_member_path(group.id, member.id), 
+                      data: { turbo_method: "delete" }, 
+                      class: 'btn btn-sm btn-danger'%> 
+              <% end %>
+                </div>
+
+            <% end %>
+          <% end %>
+        </div>
+        <% if group.members.find_by(user_id: current_user.id).role == 'Admin' %>        
+          <hr>
+          <div class="row">
+            <%= form_with model: [group, group.members.build ] do |form| %>
+              <% users = User.where.not(id: group.members.pluck(:user_id)) %>
+              <%= select_tag "user_id", options_from_collection_for_select(users, "id", "username") %>
+              <%= select_tag "role", options_for_select([ "user", "admin" ], "user") %>
+              <%= form.submit :Submit, class: 'btn btn-primary btn-sm' %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
